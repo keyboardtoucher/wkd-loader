@@ -10,31 +10,31 @@ export default function Loader() {
 
   useEffect(() => {
     const startTime = Date.now()
-    const minDuration = 3000 // Минимум 3 секунды для UX
+    const minDuration = 3000 // At least 3 seconds for UX
     
     let resourcesChecked = false
     let minTimeReached = false
 
-    // Проверка готовности основного сайта
+    // Check the readiness of the main site
     async function checkSiteReadiness() {
       try {
         setLoadingPhase('Loading resources...')
         setProgress(20)
 
-        // 1. Проверяем доступность основного сайта
+        // 1. Check the availability of the main site
         const response = await fetch(targetSite, { 
           method: 'HEAD',
-          mode: 'no-cors' // Избегаем CORS ошибки
+          mode: 'no-cors' // Avoid CORS errors
         })
         setProgress(40)
         setLoadingPhase('Checking assets...')
 
-        // 2. Предзагружаем основные ресурсы
+        // 2. Preload main resources
         await preloadResources()
         setProgress(70)
         setLoadingPhase('Optimizing...')
 
-        // 3. Дополнительная проверка готовности
+        // 3. Additional readiness check
         await verifyResourcesLoaded()
         setProgress(90)
         setLoadingPhase('Almost ready...')
@@ -44,7 +44,7 @@ export default function Loader() {
 
       } catch (error) {
         console.log('Site check completed (CORS expected)')
-        // CORS ошибка ожидаема, продолжаем загрузку
+        // CORS error is expected, continue loading
         setProgress(60)
         await preloadResources()
         setProgress(90)
@@ -53,12 +53,12 @@ export default function Loader() {
       }
     }
 
-    // Предзагрузка критических ресурсов
+    // Preload critical resources
     function preloadResources() {
       return new Promise((resolve) => {
         const resources = [
           targetSite,
-          // Добавить конкретные ресурсы если знаете пути
+          // Add specific resources if you know the paths
           // targetSite + '/css/main.css',
           // targetSite + '/js/main.js'
         ]
@@ -87,7 +87,7 @@ export default function Loader() {
       })
     }
 
-    // Дополнительная проверка через iframe (для более точной проверки)
+    // Additional check via iframe (for more accurate verification)
     function verifyResourcesLoaded() {
       return new Promise((resolve) => {
         const iframe = document.createElement('iframe')
@@ -102,7 +102,7 @@ export default function Loader() {
         
         iframe.onerror = () => {
           document.body.removeChild(iframe)
-          resolve() // Продолжаем даже при ошибке
+          resolve() // Continue even on error
         }
         
         document.body.appendChild(iframe)
@@ -117,13 +117,13 @@ export default function Loader() {
       })
     }
 
-    // Минимальное время загрузки для UX
+    // Minimum loading time for UX
     setTimeout(() => {
       minTimeReached = true
       checkCompletion()
     }, minDuration)
 
-    // Проверка завершения
+    // Completion check
     function checkCompletion() {
       if (resourcesChecked && minTimeReached) {
         setProgress(100)
@@ -135,7 +135,7 @@ export default function Loader() {
       }
     }
 
-    // Фоновая анимация прогресса
+    // Background progress animation
     const progressInterval = setInterval(() => {
       setProgress(prev => {
         if (prev >= 90) return prev
@@ -143,7 +143,7 @@ export default function Loader() {
       })
     }, 100)
 
-    // Запуск проверки сайта
+    // Start site check
     checkSiteReadiness()
 
     return () => {

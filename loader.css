@@ -45,10 +45,30 @@ html, body {
   mix-blend-mode: difference;
 }
 
+.loading-phase {
+  position: absolute;
+  bottom: 20%;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: clamp(1rem, 3vw, 1.5rem);
+  color: #AF0B55;
+  opacity: 0.9;
+  text-align: center;
+  z-index: 15;
+  mix-blend-mode: difference;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+}
+
 /* Mobile optimization */
 @media (max-width: 768px) {
   .progress-text {
     font-size: clamp(3rem, 15vw, 6rem);
+  }
+  
+  .loading-phase {
+    bottom: 25%;
+    font-size: clamp(0.8rem, 4vw, 1.2rem);
   }
 }
 
@@ -58,21 +78,9 @@ html, body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* Enhanced visual consistency */
+.progress-text,
 .loading-phase {
-  position: absolute;
-  bottom: 20%;
-  left: 50%;
-  transform: translateX(-50%);
-  font-size: clamp(1rem, 3vw, 1.5rem);
-  color: #AF0B55;
-  opacity: 0.8;
-  text-align: center;
-  z-index: 15;
-}
-
-@media (max-width: 768px) {
-  .loading-phase {
-    bottom: 25%;
-    font-size: clamp(0.8rem, 4vw, 1.2rem);
-  }
+  text-shadow: none;
+  -webkit-text-stroke: 0;
 }
