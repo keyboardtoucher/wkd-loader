@@ -13,7 +13,16 @@ export default function Loader() {
     const minDuration = 3000 // At least 3 seconds for UX
     
     let resourcesChecked = false
+    let splineReady = false        // SPLINE: Track Spline status
     let minTimeReached = false
+
+    // SPLINE: Listen for SplineWatcher completion
+    window.addEventListener('splineWatcherComplete', () => {
+      splineReady = true
+      checkCompletion()
+    })
+    // SPLINE: Fallback check
+    setTimeout(() => { if (!splineReady) { splineReady = true; checkCompletion() } }, 10000)
 
     // Check the readiness of the main site
     async function checkSiteReadiness() {
@@ -125,7 +134,8 @@ export default function Loader() {
 
     // Completion check
     function checkCompletion() {
-      if (resourcesChecked && minTimeReached) {
+      // SPLINE: Wait for all checks including Spline
+      if (resourcesChecked && splineReady && minTimeReached) {
         setProgress(100)
         setLoadingPhase('Complete!')
         
@@ -157,6 +167,7 @@ export default function Loader() {
         <title>Loading WebKraft...</title>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="robots" content="noindex" />
+        <script src="./SplineWatcher.js" async></script>
       </Head>
       
       <div className="loader">

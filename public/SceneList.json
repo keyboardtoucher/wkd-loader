@@ -1,0 +1,18 @@
+{
+  "scenes": [
+    "your-scene-id-1",
+    "your-scene-id-2",
+    "your-scene-id-3"
+  ],
+  "config": {
+    "preloadRuntime": true,
+    "fallbackEnabled": true,
+    "timeout": 8000,
+    "retryAttempts": 2
+  },
+  "metadata": {
+    "version": "1.0",
+    "lastUpdated": "2025-06-06",
+    "description": "Spline scene configuration for WebKraft project"
+  }
+}
